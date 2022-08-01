@@ -1,77 +1,59 @@
-import { storageService } from './storageService.js'
-import { makeId } from './utilService.js'
+import { httpService } from './http.service'
+const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 
 export const userService = {
-    query,
-    save,
-    remove,
+    login,
+    logout,
+    signup,
+    getLoggedinUser,
+    getUsers,
     getById,
-    getEmptyUser,
+    remove,
+    update,
 }
 
-const STORAGE_KEY = 'users'
-
-
-
-var gUsers = _loadUsers()
-
-function query(filterBy) {
-    let usersToReturn = gUsers;
-    if (filterBy) {
-        var { type, maxBatteryStatus, minBatteryStatus, model } = filterBy
-       
-    }
-    return Promise.resolve([...usersToReturn]);
+async function getUsers() {
+    return await httpService.get(`user`)
 }
 
-function getById(id) {
-    const user = gUsers.find(user => user._id === id)
-    return Promise.resolve({ ...user })
+async function getById(userId) {
+    const user = await httpService.get(`user/${userId}`)
+    return user;
 }
 
-function remove(id) {
-    const idx = gUsers.findIndex(user => user._id === id)
-    gUsers.splice(idx, 1)
-    if (!gUsers.length) gUsers = gDefaultUsers.slice()
-    storageService.store(STORAGE_KEY, gUsers)
-    return Promise.resolve()
+function remove(userId) {
+    return httpService.delete(`user/${userId}`)
 }
 
-function save(userToSave) {
-    if (userToSave._id) {
-        const idx = gUsers.findIndex(user => user._id === userToSave._id)
-        gUsers.splice(idx, 1, userToSave)
-    } else {
-        userToSave._id = makeId()
-        gUsers.push(userToSave)
-    }
-    storageService.store(STORAGE_KEY, gUsers)
-    return Promise.resolve(userToSave);
+async function update(user) {
+    user = await httpService.put(`user/${user._id}`, user)
+    // Handle case in which admin updates other user's details
+    if (getLoggedinUser()._id === user._id) _saveLocalUser(user)
+    return user;
 }
 
-// function _update(userToSave) {
-//     const idx = gUsers.findIndex(user => user._id === userToSave._id)
-//     gUsers.splice(idx, 1, userToSave)
-//     return Promise.resolve(userToSave)
-// }
-
-
-// function _add(userToSave) {
-
-// }
-
-function getEmptyUser() {
-    return {
-        fullname: '',
-        username: '',
-        password: ''
-    }
+async function login(userCred) {
+    const user = await httpService.post('auth/login', userCred)
+    if (user) return _saveLocalUser(user)
 }
 
-function _loadUsers() {
-    let users = storageService.load(STORAGE_KEY)
-    if (!users || !users.length) users = gDefaultUsers
-    storageService.store(STORAGE_KEY, users)
-    return users
+async function signup(userCred) {
+    const user = await httpService.post('auth/signup', userCred)
+    return _saveLocalUser(user)
 }
 
+async function logout() {
+    sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
+    return await httpService.post('auth/logout')
+}
+
+
+function _saveLocalUser(user) {
+    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
+    return user
+}
+
+function getLoggedinUser() {
+    const currUser = JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER) || 'null')
+    return currUser
+}

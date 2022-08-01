@@ -1,7 +1,7 @@
 
 const INITIAL_STATE = {
     users: [],
-    filterBy: null
+    // filterBy: null
 }
 
 export function userReducer(state = INITIAL_STATE, action) {
@@ -30,11 +30,11 @@ export function userReducer(state = INITIAL_STATE, action) {
                 ...state,
                 users: state.users.map(user => user._id === action.user._id ? action.user : user)
             }
-        case 'SET_FILTER_BY':
-            return {
-                ...state,
-                filterBy: {...action.filterBy}
-            }
+        // case 'SET_FILTER_BY':
+        //     return {
+        //         ...state,
+        //         filterBy: {...action.filterBy}
+        //     }
 
         default:
             return state;

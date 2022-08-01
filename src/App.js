@@ -4,6 +4,8 @@ import "./assets/scss/global.scss"
 import { AppHeader } from "./cmps/AppHeader"
 import { Home } from './pages/Home'
 import { About } from "./pages/About"
+import { Login } from "./pages/Login"
+import { UserPage } from "./pages/UserPage"
 
 
 function App() {
@@ -14,6 +16,8 @@ function App() {
         <main>
           <Switch>
             <Route path="/about" component={About}></Route>
+            <Route path="/login" component={Login}></Route>
+            <Route path="/users" component={UserPage}></Route>
             <Route path="/" component={Home} ></Route>
           </Switch>
         </main>
