@@ -7,9 +7,11 @@ export const userService = {
     signup,
     getLoggedinUser,
     getUsers,
+    getEmptyUser,
     getById,
     remove,
     update,
+    updateFriends
 }
 
 async function getUsers() {
@@ -27,7 +29,12 @@ function remove(userId) {
 
 async function update(user) {
     user = await httpService.put(`user/${user._id}`, user)
-    // Handle case in which admin updates other user's details
+    if (getLoggedinUser()._id === user._id) _saveLocalUser(user)
+    return user;
+}
+
+async function updateFriends(user) {
+    user = await httpService.put(`user/friends/${user._id}`, user)
     if (getLoggedinUser()._id === user._id) _saveLocalUser(user)
     return user;
 }
@@ -56,4 +63,13 @@ function _saveLocalUser(user) {
 function getLoggedinUser() {
     const currUser = JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER) || 'null')
     return currUser
+}
+
+function getEmptyUser() {
+    return {
+        username: '',
+        password: '',
+        fullname: '',
+        isAdmin: false
+    }
 }

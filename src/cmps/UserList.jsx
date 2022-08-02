@@ -1,6 +1,6 @@
 import { UserPreview } from "./UserPreview"
 
-export function UserList({users}) {
+export const UserList = ({users}) => {
     if(!users) return <div>Loading...</div>
   return (
     <ul>

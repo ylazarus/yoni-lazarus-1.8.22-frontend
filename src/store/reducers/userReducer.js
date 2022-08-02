@@ -1,7 +1,8 @@
+import { userService } from "../../services/userService"
 
 const INITIAL_STATE = {
     users: [],
-    // filterBy: null
+    loggedInUser: userService.getLoggedinUser() || null
 }
 
 export function userReducer(state = INITIAL_STATE, action) {
@@ -25,17 +26,18 @@ export function userReducer(state = INITIAL_STATE, action) {
                 users: state.users.filter(user => user._id !== action.userId)
             }
 
-        case 'UPDATE_USER':
+        case 'SET_CURRENT_USER':
             return {
                 ...state,
-                users: state.users.map(user => user._id === action.user._id ? action.user : user)
+                loggedInUser: action.loggedInUser
             }
-        // case 'SET_FILTER_BY':
-        //     return {
-        //         ...state,
-        //         filterBy: {...action.filterBy}
-        //     }
-
+    
+        case 'REMOVE_LOGGED_IN_USER':
+            return {
+                ...state,
+                loggedInUser: null
+            }
+    
         default:
             return state;
     }

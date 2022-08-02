@@ -1,15 +1,30 @@
 import { userService } from "../../services/userService"
 
 export function loadUsers() {
-    return async (dispatch, getState) => {
+    return async (dispatch) => {
         try {
-            const { filterBy } = getState().userModule
-            const users = await userService.getUsers(filterBy)
+            const users = await userService.getUsers()
             dispatch({ type: 'SET_USERS', users })
         } catch (err) {
             console.log('err:', err)
         }
 
+    }
+}
+
+export function addUser(user) {
+    return async (dispatch) => {
+        try {
+            if (user._id) {
+                await userService.update(user)
+                dispatch({type: 'UPDATE_USER', user})
+            } else {
+                await userService.signup(user)
+                dispatch({type: 'ADD_USER', user})
+            }
+        } catch (error) {
+            throw error
+        }
     }
 }
 
@@ -24,6 +39,32 @@ export function removeUser(userId) {
     }
 }
 
+export function addFriend(friend) {
+    return async (dispatch) => {
+        try {
+            const userToUpdate = await userService.getLoggedinUser()
+            userToUpdate.friends.push(friend)
+            const loggedInUser = await userService.updateFriends(userToUpdate)
+            dispatch({type: 'SET_CURRENT_USER', loggedInUser})
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export function removeFriend(id) {
+    return async (dispatch) => {
+        try {
+            let userToUpdate = await userService.getLoggedinUser()
+            userToUpdate.friends = userToUpdate.friends.filter(f => f._id !== id)
+            const loggedInUser = await userService.updateFriends(userToUpdate)
+            dispatch({type: 'SET_CURRENT_USER', loggedInUser})
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
 // export function setFilterBy(filterBy) {
 //     return async (dispatch) => {
 //         dispatch({ type: 'SET_FILTER_BY', filterBy })
@@ -34,16 +75,16 @@ export function login(userCred) {
     return async (dispatch) => {
         if (!userCred.fullname){
             try {
-                const loggedinUser = await userService.login(userCred)
-                dispatch({ type: 'SET_LOGGED_IN_USER', loggedinUser})
+                const loggedInUser = await userService.login(userCred)
+                dispatch({ type: 'SET_CURRENT_USER', loggedInUser})
             } catch (error) {
                 console.log('from user Actions error: ', error);        
                 throw error        
             }
         } else {
             try {
-                const loggedinUser = await userService.signup(userCred)
-                dispatch({ type: 'SET_LOGGED_IN_USER', loggedinUser})
+                const loggedInUser = await userService.signup(userCred)
+                dispatch({ type: 'SET_CURRENT_USER', loggedInUser})
             } catch (error) {
                 console.log('from user Actions error: ', error);        
                 throw error

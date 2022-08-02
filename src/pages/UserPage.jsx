@@ -8,7 +8,6 @@ export const UserPage = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    console.log("using effect")
     dispatch(loadUsers())
     console.log(users)
   }, [])

@@ -1,11 +1,10 @@
-import React, { useEffect } from "react"
-import { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useForm } from "../hooks/useForm"
-import { login, logout } from "../store/actions/userActions"
+import { login, logout, loadUsers } from "../store/actions/userActions"
 import {userService} from "../services/userService"
 
-export const Login = () => {
+export const Login = (props) => {
   const [userInfo, handleChange, setUserInfo] = useForm(null)
   const [isSignup, setIsSignup] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(null)
@@ -28,6 +27,7 @@ export const Login = () => {
     ev.preventDefault()
     try {
       await dispatch(login({ ...userInfo }))
+      await dispatch(loadUsers())
       setIsLoggedIn(true)
     } catch (error) {
       console.log("could not log in right now")
@@ -54,6 +54,14 @@ export const Login = () => {
     setIsSignup(false)
   }
 
+  const onToChats = () => {
+    props.history.push('/friends')
+  }
+
+  const onToAddFriends = () => {
+    props.history.push('/users')
+  }
+
   if (!userInfo) return <div className="card-display">Loading...</div>
   if (loginFailed)
     return (
@@ -71,6 +79,8 @@ export const Login = () => {
         <button className="myButton" onClick={onLogout}>
           Logout
         </button>
+        <button onClick={onToChats}>To Chats</button>
+        <button onClick={onToAddFriends}>Add New Friends</button>
       </section>
     )
   return (
