@@ -20,7 +20,9 @@ export const AddUser = (props) => {
   const id = props.match.params.id
 
   const loadUser = async () => {
-    const userToSave = id ? await userService.getById(id) : userService.getEmptyUser()
+    const userToSave = id
+      ? await userService.getById(id)
+      : userService.getEmptyUser()
     setUserToSave(userToSave)
   }
 
@@ -38,24 +40,24 @@ export const AddUser = (props) => {
 
   const onRemove = async () => {
     try {
-        await dispatch(removeUser(id))
-        alert('user deleted successfully')
+      await dispatch(removeUser(id))
+      alert("user deleted successfully")
     } catch (error) {
-        alert('failed to remove user')
+      alert("failed to remove user")
     }
   }
 
   const onBack = () => {
-    props.history.push('/users')
+    props.history.push("/users")
   }
 
-  if (!userToSave) return <div>Loading...</div>
-  if (!currUser) return <div>Please log in</div>
-  if (!currUser.isAdmin) return <div>Only admins can access this page</div>
+  if (!userToSave) return <div className="card-display">Loading...</div>
+  if (!currUser) return <div className="card-display">Please log in</div>
+  if (!currUser.isAdmin) return <div className="card-display">Only admins can access this page</div>
   return (
-    <section>
-      {id ? <h1>Edit user</h1> : <h1>Add new user</h1>}
-      <form onSubmit={onSaveUser}>
+    <section className="card-display">
+      <h1>{id ? "Edit user" : "Add new user"}</h1>
+      <form className="form-inputs flex column" onSubmit={onSaveUser}>
         <section>
           <label htmlFor="username">Username </label>
           <input
@@ -101,10 +103,14 @@ export const AddUser = (props) => {
             <option value="false">No</option>
           </select>
         </section>
-        <button>Save!</button>
+        <div className="flex auto-center m10">
+          <button className="l-btn">Save!</button>
+        </div>
       </form>
-      <button onClick={onRemove}>Delete User</button>
-      <button onClick={onBack}>Back</button>
+      <div className="add-user-buttons-container flex column">
+        <button className="l-btn m5" onClick={onRemove}>Delete User</button>
+        <button className='l-btn m5' onClick={onBack}>Back</button>
+      </div>
     </section>
   )
 }

@@ -2,6 +2,10 @@ import React from 'react'
 
 export function About() {
   return (
-    <h1>This is an about page</h1>
+    <section className="card-display">
+      <h1>About this app</h1>
+      <p>This is a chat app where any user can find and contact other app users.</p>
+      <p>Sign up and log in, add friends and start chatting right away!</p>
+    </section>
   )
 }

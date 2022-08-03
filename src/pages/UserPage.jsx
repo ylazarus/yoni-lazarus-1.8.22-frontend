@@ -2,6 +2,7 @@ import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { loadUsers } from "../store/actions/userActions"
 import { UserList } from "../cmps/UserList"
+import handshake from "../assets/imgs/handshake.jpg"
 
 export const UserPage = () => {
   const { users } = useSelector((state) => state.userModule)
@@ -14,9 +15,12 @@ export const UserPage = () => {
 
   if (!users) return <div>Loading...</div>
   return (
-    <section>
-      <h1>User Page</h1>
-      <UserList users={users} />
+    <section className="friends-page">
+      <h1 className="text-center">All Users</h1>
+      <div className="friends-container">
+        <UserList users={users} />
+        <img className="friends-photo" src={handshake} />
+      </div>
     </section>
   )
 }

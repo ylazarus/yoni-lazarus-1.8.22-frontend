@@ -6,6 +6,7 @@
 @import "setup/mixins";
 
 // Basics
+@import "basics/app-layout";
 @import "basics/typography";
 @import "basics/base";
 @import "basics/helpers";
@@ -14,7 +15,9 @@
 @import "basics/animations";
 
 // Pages
-@import "pages/about";
+@import "pages/chat-page";
+@import "pages/login";
+@import "pages/friends";
 
 // Components
 @import "cmps/app-header";

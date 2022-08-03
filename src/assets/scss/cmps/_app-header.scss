@@ -1,3 +1,47 @@
 .app-header {
-    
+  display: flex;
+  background-color: #d9fdd3;
+  justify-content: center;
+
+  .header-nav {
+    .logo {
+      font-weight: 600;
+      font-family: cursive;
+      display: none;
+      @media (min-width: 500px) {
+        display: block;
+      }
+    }
+    display: flex;
+    flex-direction: row;
+
+    @media (min-width: 960px) {
+      flex-direction: column;
+      width: 15rem;
+    }
+    :hover:not(:first-child) {
+      background-color: #25d366;
+    }
+
+    > * {
+      height: 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      width: 100%;
+      box-shadow: none;
+      font-size: 0.8em;
+
+      @media (min-width: 500px) {
+        font-size: 1em;
+      }
+
+      @media (min-width: 960px) {
+        box-shadow: 0 1px 0 0;
+        padding: 2rem;
+        font-size: 1.5em;
+      }
+    }
+  }
 }

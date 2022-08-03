@@ -36,7 +36,6 @@ export function addMsg(msg) {
     return async (dispatch) => {
         try {
             const newMsg = await chatService.addMsg(msg)
-            console.log('new message is: ', newMsg);
             dispatch({ type: 'ADD_MSG', newMsg})
         } catch (error) {
             console.log(error);            

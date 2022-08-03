@@ -16,7 +16,7 @@ export function chatReducer(state = INITIAL_STATE, action) {
         case 'ADD_MSG':
             return {
                 ...state,
-                msgs: [...state.msgs, action.msg]
+                msgs: [...state.msgs, action.newMsg]
             }
 
         case 'REMOVE_MSG':

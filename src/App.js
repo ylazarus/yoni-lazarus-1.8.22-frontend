@@ -16,7 +16,7 @@ function App() {
     <Router>
       <div className="App">
         <AppHeader />
-        <main>
+        <main className="main-content">
           <Switch>
             <Route path="/about" component={About}></Route>
             <Route path="/login" component={Login}></Route>

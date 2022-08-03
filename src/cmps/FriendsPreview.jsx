@@ -9,8 +9,11 @@ export const FriendsPreview = ({ friend }) => {
 
   if (!friend) return <div>Loading...</div>
   return (
-    <li>
-      <div onClick={onOpenChat}>{friend.fullname}</div>
+    <li onClick={onOpenChat} className="friend-li">
+      <p className="chat-preview">
+        {friend.fullname}
+        {/* {friend?.lastMessage || " (No messages to display now)"} */}
+      </p>
     </li>
   )
 }

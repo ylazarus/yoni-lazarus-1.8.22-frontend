@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useForm } from "../hooks/useForm"
 import { login, logout, loadUsers } from "../store/actions/userActions"
-import {userService} from "../services/userService"
+import { userService } from "../services/userService"
 
 export const Login = (props) => {
   const [userInfo, handleChange, setUserInfo] = useForm(null)
@@ -10,7 +10,6 @@ export const Login = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(null)
   const [currUser, setCurrUser] = useState(null)
   const [loginFailed, setLoginFailed] = useState(false)
-
 
   const dispatch = useDispatch()
 
@@ -55,11 +54,11 @@ export const Login = (props) => {
   }
 
   const onToChats = () => {
-    props.history.push('/friends')
+    props.history.push("/friends")
   }
 
   const onToAddFriends = () => {
-    props.history.push('/users')
+    props.history.push("/users")
   }
 
   if (!userInfo) return <div className="card-display">Loading...</div>
@@ -75,20 +74,29 @@ export const Login = (props) => {
   if (currUser || isLoggedIn)
     return (
       <section className="card-display">
-        <h3>You are logged in as {currUser?.fullname || ""}</h3>
-        <button className="myButton" onClick={onLogout}>
-          Logout
-        </button>
-        <button onClick={onToChats}>To Chats</button>
-        <button onClick={onToAddFriends}>Add New Friends</button>
+        <h3 className="text-center">Welcome!</h3>
+        <h3 className="text-center">
+          You are logged in as {currUser?.fullname || ""}
+        </h3>
+        <div className="login-options flex column">
+          <button className="l-btn" onClick={onLogout}>
+            Logout
+          </button>
+          <button className="l-btn" onClick={onToChats}>To Chats</button>
+        </div>
       </section>
     )
   return (
     <section className="card-display">
       <h1>{isSignup ? "Sign Up!" : "Sign In"}</h1>
-      <form className="login-form flex column space-between align-center" onSubmit={onLogin}>
+      <form
+        className="login-form form-inputs flex column space-between align-center"
+        onSubmit={onLogin}
+      >
         <section>
-          <label htmlFor="username" className="bold">Username </label>
+          <label htmlFor="username" className="bold">
+            Username{" "}
+          </label>
           <input
             onChange={handleChange}
             value={userInfo.username}
@@ -98,7 +106,9 @@ export const Login = (props) => {
           />
         </section>
         <section>
-          <label htmlFor="password" className="bold">Password </label>
+          <label htmlFor="password" className="bold">
+            Password{" "}
+          </label>
           <input
             onChange={handleChange}
             value={userInfo.password}
@@ -109,7 +119,9 @@ export const Login = (props) => {
         </section>
         {isSignup && (
           <section>
-            <label htmlFor="fullname" className="bold">Full Name </label>
+            <label htmlFor="fullname" className="bold">
+              Full Name{" "}
+            </label>
             <input
               onChange={handleChange}
               value={userInfo.fullname}
@@ -119,13 +131,21 @@ export const Login = (props) => {
             />
           </section>
         )}
-        <button className="myButton m20">{isSignup ? "Sign Up!" : "Login"}</button>
+        <button className="l-btn m20">
+          {isSignup ? "Sign Up!" : "Login"}
+        </button>
       </form>
-        {isSignup && <button className="myButton" onClick={onDoSignin}>Back to Login</button>}
+      {isSignup && (
+        <button className="l-btn" onClick={onDoSignin}>
+          Back to Login
+        </button>
+      )}
       {!isSignup && (
         <section className="flex column align-center">
-        <p>No account yet?</p>
-        <button className="myButton" onClick={onDoSignup}>Sign me up!</button>
+          <p>No account yet?</p>
+          <button className="l-btn" onClick={onDoSignup}>
+            Sign me up!
+          </button>
         </section>
       )}
     </section>

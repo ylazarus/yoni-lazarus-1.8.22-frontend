@@ -21,7 +21,6 @@ export const UserPreview = (props) => {
   const onAddFriend = async () => {
     try {
       await dispatch(addFriend(friendToAdd))
-      alert("added successfully")
     } catch (error) {
       alert("failed to add friend")
     }
@@ -30,10 +29,14 @@ export const UserPreview = (props) => {
   const onUnFriend = async () => {
     try {
         await dispatch(removeFriend(props.user._id))
-        alert("removed successfully")
       } catch (error) {
         alert("failed to delete friend")
       }
+  }
+
+  const onOpenChat = async () => {
+    if (!isAlreadyFriend) await onAddFriend()
+    history.push(`/chat/${props.user._id}`)
   }
 
   const onEditUser = () => {
@@ -42,17 +45,17 @@ export const UserPreview = (props) => {
 
   if (!loggedInUser) return <div>Loading...</div>
   if (isAlreadyFriend) return (
-    <li>
-      <div>{props.user.fullname}</div>
-      <button onClick={onUnFriend}>Unfriend</button>
-      {loggedInUser.isAdmin && <button onClick={onEditUser}>Edit User</button>}
+    <li className="friend-li flex">
+      <div className="full-grow">{props.user.fullname}</div>
+      <button className="un-friend-btn l-btn" onClick={onUnFriend}>Unfriend</button>
+      {loggedInUser.isAdmin && <button className="l-btn" onClick={onEditUser}>Edit User</button>}
     </li>
   )
   return (
-    <li>
-      <div>{props.user.fullname}</div>
-      <button onClick={onAddFriend}>Add Friend</button>
-      {loggedInUser.isAdmin && <button onClick={onEditUser}>Edit User</button>}
+    <li onClick={onOpenChat} className="friend-li flex">
+      <div className="full-grow">{props.user.fullname}</div>
+      <button className="un-friend-btn l-btn" onClick={onAddFriend}>Add Friend</button>
+      {loggedInUser.isAdmin && <button className="l-btn" onClick={onEditUser}>Edit User</button>}
     </li>
   )
 }
