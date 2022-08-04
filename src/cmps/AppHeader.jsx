@@ -1,11 +1,16 @@
 import React from "react"
-import { NavLink } from "react-router-dom"
+import { NavLink, useHistory } from "react-router-dom"
 
 export function AppHeader() {
+  const history = useHistory()
+
+  const onLogoClicked = () => {
+    history.push('/')
+  }
   return (
     <header className="app-header">
       <nav className="header-nav">
-          <h3 className="logo">EY-Chat</h3>
+          <h3 onClick={onLogoClicked} className="logo">EY-Chat</h3>
         <NavLink exact to="/">
           Home
         </NavLink>

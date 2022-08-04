@@ -5,12 +5,12 @@ import friendsLogo from "../assets/imgs/friends.jpg"
 
 export const FriendsList = (props) => {
   const { loggedInUser } = useSelector((state) => state.userModule)
-  const friends = loggedInUser.friends.sort()
+  const friends = loggedInUser?.friends.sort() || ''
 
   const onFindFriends = () => {
     props.history.push("/users")
   }
-
+if (!friends) return <div>Please Log In</div>
   return (
     <section className="friends-page">
       <h1 className="text-center">Click on a friend to chat!</h1>
