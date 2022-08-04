@@ -1,12 +1,25 @@
 
 const INITIAL_STATE = {
     msgs: [],
-    currChatId: null
+    currChatId: null,
+    chatErrMsg: null
 }
 
 export function chatReducer(state = INITIAL_STATE, action) {
 
     switch (action.type) {
+        case 'OPEN_CHAT_MODAL':
+            return {
+                ...state,
+                chatErrMsg: action.errMsg
+            }
+
+        case 'CLOSE_CHAT_MODAL':
+            return {
+                ...state,
+                chatErrMsg: null
+            }
+
         case 'SET_MSGS':
             return {
                 ...state,

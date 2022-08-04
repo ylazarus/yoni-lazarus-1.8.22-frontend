@@ -23,7 +23,6 @@ export const FriendsList = (props) => {
         </ul>
         <img className="friends-photo" src={friendsLogo} />
       </div>
-      {/* <button onClick={onFindFriends}>Find More Friends</button> */}
     </section>
   )
 }

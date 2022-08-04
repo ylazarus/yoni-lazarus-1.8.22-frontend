@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useForm } from "../hooks/useForm"
 import { login, logout, loadUsers } from "../store/actions/userActions"
 import { userService } from "../services/userService"
@@ -29,7 +29,7 @@ export const Login = (props) => {
       await dispatch(loadUsers())
       setIsLoggedIn(true)
     } catch (error) {
-      console.log("could not log in right now")
+      console.log(error, "could not log in right now")
       setLoginFailed(true)
     }
   }
@@ -57,16 +57,12 @@ export const Login = (props) => {
     props.history.push("/friends")
   }
 
-  const onToAddFriends = () => {
-    props.history.push("/users")
-  }
-
   if (!userInfo) return <div className="card-display">Loading...</div>
   if (loginFailed)
     return (
       <section className="card-display">
         <h3>Login failed, please try again</h3>
-        <button onClick={onTryAgain} className="myButton">
+        <button onClick={onTryAgain} className="l-btn">
           Back To Login
         </button>
       </section>

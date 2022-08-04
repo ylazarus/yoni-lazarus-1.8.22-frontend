@@ -9,13 +9,28 @@ import { UserPage } from "./pages/UserPage"
 import { ChatPage } from "./pages/ChatPage"
 import { AddUser } from "./pages/AddUser"
 import { FriendsList } from "./pages/FriendsList"
+import { ErrorModal } from "./cmps/ErrorModal"
+import { useDispatch, useSelector } from "react-redux/es/exports"
+import { closeChatModal } from "./store/actions/chatActions"
+import { closeUserModal } from "./store/actions/userActions"
 
 
 function App() {
+  const dispatch = useDispatch()
+
+  const { userErrMsg } = useSelector((state) => state.userModule)
+  const { chatErrMsg } = useSelector((state) => state.chatModule)
+
+  const onCloseModal = () => {
+    dispatch(closeChatModal())
+    dispatch(closeUserModal())
+  }
+  
   return (
     <Router>
       <div className="App">
         <AppHeader />
+        {(userErrMsg || chatErrMsg) && <ErrorModal onCloseModal={onCloseModal} userErrMsg={userErrMsg} chatErrMsg={chatErrMsg} />}
         <main className="main-content">
           <Switch>
             <Route path="/about" component={About}></Route>

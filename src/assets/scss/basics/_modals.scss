@@ -79,6 +79,7 @@
         max-width: 90%;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
         position: relative;
+        padding: .5rem;
         animation: scalein 0.3s ease-in-out;
 
         &>* {
@@ -86,13 +87,15 @@
         }
 
         .dismiss {
-            font-size: 32px;
-            width: 44px;
+            font-size: 1.5rem;
+            width: 36px;
             padding: 0;
             position: absolute;
             top: 5px;
             right: 5px;
             z-index: 15;
+            background-color: #19a000;
+            border-radius: 50%;
         }
     }
 
