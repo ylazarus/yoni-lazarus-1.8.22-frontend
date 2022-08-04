@@ -18,7 +18,7 @@ import { closeUserModal } from "./store/actions/userActions"
 function App() {
   const dispatch = useDispatch()
 
-  const { userErrMsg } = useSelector((state) => state.userModule)
+  const { userErrMsg, confirmationMsg } = useSelector((state) => state.userModule)
   const { chatErrMsg } = useSelector((state) => state.chatModule)
 
   const onCloseModal = () => {
@@ -30,7 +30,7 @@ function App() {
     <Router>
       <div className="App">
         <AppHeader />
-        {(userErrMsg || chatErrMsg) && <ErrorModal onCloseModal={onCloseModal} userErrMsg={userErrMsg} chatErrMsg={chatErrMsg} />}
+        {(userErrMsg || chatErrMsg || confirmationMsg) && <ErrorModal onCloseModal={onCloseModal} confirmationMsg={confirmationMsg} userErrMsg={userErrMsg} chatErrMsg={chatErrMsg} />}
         <main className="main-content">
           <Switch>
             <Route path="/about" component={About}></Route>

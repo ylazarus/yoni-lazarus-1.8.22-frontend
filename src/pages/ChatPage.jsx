@@ -2,7 +2,7 @@ import React from "react"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux/es/exports"
 import { MsgPreview } from "../cmps/MsgPreview"
-import { setCurrChatId, getMsgs, addMsg } from "../store/actions/chatActions"
+import { getMsgs, addMsg } from "../store/actions/chatActions"
 import { useForm } from "../hooks/useForm"
 import { chatService } from "../services/chatService"
 import { socketService } from "../services/socket.service"
@@ -10,8 +10,11 @@ import { useRef } from "react"
 
 export const ChatPage = (props) => {
   const [newMsg, handleChange, setNewMsg] = useForm(null)
+
   const messagesEnd = useRef(null)
+
   const dispatch = useDispatch()
+
   const id = props.match.params.id
   
   const { msgs } = useSelector((state) => state.chatModule)
@@ -26,7 +29,6 @@ export const ChatPage = (props) => {
     socketService.emit('chat topic', topic)
     socketService.on("message received", () => {
       loadMsgs()
-      // onMessageAdded(data)
     })
     return () => {
       socketService.off("message received")
@@ -42,12 +44,10 @@ export const ChatPage = (props) => {
 
   const loadMsgs = async () => {
     try {
-      // await dispatch(setCurrChatId(id))
       await dispatch(getMsgs(id))
       scrollToBottom()
     } catch (error) {
       console.log("error", error)
-      alert("cant load messages now")
     }
   }
 
@@ -55,17 +55,11 @@ export const ChatPage = (props) => {
     ev.preventDefault()
     try {
       await dispatch(addMsg({...newMsg}))
-      // await loadMsgs()
       resetNewMsg()
       scrollToBottom()
     } catch (error) {
       console.log("error", error)
-      alert("cant send message now")
     }
-  }
-
-  const onBack = () => {
-    props.history.push('/friends')
   }
 
   const scrollToBottom = () => {
@@ -80,7 +74,7 @@ export const ChatPage = (props) => {
         {msgs.map((msg) => (
           <MsgPreview key={msg._id} msg={msg} id={id} />
         ))}
-        <li style={{ float:"left", clear: "both" }}
+        <li style={{ float:"left", clear: "both" }} // dummy li for scroll to bottom on load and new messages
              ref={messagesEnd}>
         </li>
       </ul>
@@ -96,7 +90,6 @@ export const ChatPage = (props) => {
           />
         <button className="d-btn">Send</button>
         </form>
-        {/* <button onClick={onBack}>Back To Contacts</button> */}
     </section>
   )
 }

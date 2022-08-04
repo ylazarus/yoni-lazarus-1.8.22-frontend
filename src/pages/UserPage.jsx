@@ -10,7 +10,6 @@ export const UserPage = () => {
 
   useEffect(() => {
     dispatch(loadUsers())
-    console.log(users)
   }, [])
 
   if (!users) return <div>Loading...</div>

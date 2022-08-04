@@ -29,9 +29,13 @@ export function addUser(user) {
       if (user._id) {
         await userService.update(user)
         dispatch({ type: "UPDATE_USER", user })
+        const successMsg = 'User updated successfully'
+        dispatch({ type: "OPEN_USER_SUCCESS_MODAL", successMsg })
       } else {
         await userService.signup(user)
         dispatch({ type: "ADD_USER", user })
+        const successMsg = 'User added successfully'
+        dispatch({ type: "OPEN_USER_SUCCESS_MODAL", successMsg })
       }
     } catch (error) {
       const errMsg = error.response.data.err
@@ -46,6 +50,8 @@ export function removeUser(userId) {
     try {
       await userService.remove(userId)
       dispatch({ type: "REMOVE_USER", userId })
+      const successMsg = 'User removed successfully'
+        dispatch({ type: "OPEN_USER_SUCCESS_MODAL", successMsg })
     } catch (error) {
       console.log("error:", error)
       const errMsg = error.response.data.err

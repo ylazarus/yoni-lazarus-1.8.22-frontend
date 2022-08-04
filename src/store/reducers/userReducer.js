@@ -3,7 +3,8 @@ import { userService } from "../../services/userService"
 const INITIAL_STATE = {
   users: [],
   loggedInUser: userService.getLoggedinUser() || null,
-  userErrMsg: null
+  userErrMsg: null,
+  confirmationMsg: null
 }
 
 export function userReducer(state = INITIAL_STATE, action) {
@@ -13,11 +14,17 @@ export function userReducer(state = INITIAL_STATE, action) {
             ...state,
             userErrMsg: action.errMsg
         }
+    case 'OPEN_USER_SUCCESS_MODAL':
+        return {
+            ...state,
+            confirmationMsg: action.successMsg
+        }
 
     case "CLOSE_USER_MODAL":
       return {
         ...state,
         userErrMsg: null,
+        confirmationMsg: null
       }
 
     case "SET_USERS":

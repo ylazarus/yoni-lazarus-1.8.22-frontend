@@ -3,17 +3,12 @@ import {userService} from "./userService"
 import { socketService } from "./socket.service"
 
 export const chatService = {
-//   getChats,
   getById,
   addMsg,
   remove,
   update,
   getEmptyChat
 }
-
-// async function getChats() {
-//   return await httpService.get(`chat`)
-// }
 
 async function getById(chatId) {
   const chat = await httpService.get(`chat/${chatId}`)
@@ -40,6 +35,6 @@ function getEmptyChat() {
     return {
         sentById: currUser._id,
         sentToId: '',
-        txt: '',
+        txt: ''
     }
 }

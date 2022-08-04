@@ -12,7 +12,6 @@ export const FriendsPreview = ({ friend }) => {
     <li onClick={onOpenChat} className="friend-li">
       <p className="chat-preview">
         {friend.fullname}
-        {/* {friend?.lastMessage || " (No messages to display now)"} */}
       </p>
     </li>
   )

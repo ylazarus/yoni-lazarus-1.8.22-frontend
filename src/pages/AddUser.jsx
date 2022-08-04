@@ -30,20 +30,16 @@ export const AddUser = (props) => {
     ev.preventDefault()
     try {
       await dispatch(addUser({ ...userToSave }))
-      alert("user saved successfully")
     } catch (error) {
       console.log(error)
-      alert("failed to save user")
     }
-    console.log("saving...")
   }
 
   const onRemove = async () => {
     try {
       await dispatch(removeUser(id))
-      alert("user deleted successfully")
     } catch (error) {
-      alert("failed to remove user")
+      console.log(error)
     }
   }
 
